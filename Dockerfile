@@ -1,10 +1,9 @@
 FROM node:8
 WORKDIR /app
 COPY package.json /app
-RUN npm install
+RUN npm i npm@latest -g && npm install -g @angular/cli && npm install
 COPY . /app
-RUN npm run build --prod
-CMD node server.js
+CMD ng build --prod && node server.js
 EXPOSE 3004
 
 
