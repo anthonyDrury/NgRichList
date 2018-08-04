@@ -14,7 +14,7 @@
     <div class="searchSection">
       <div class="searchElem">
         <label for="searchBar" class="searchLabel">Search:</label>
-        <input id="searchBar" class="searchBar" type="text" placeholder="Search" [(ngModel)]="searchString" (keydown)="searchFilter()"
+        <input id="searchBar" class="searchBar" type="text" placeholder="Search" [(ngModel)]="searchString" (keyup)="searchFilter()"
         />
       </div>
 
@@ -52,14 +52,12 @@
         <br/>
         <td class="tableElem" title="Name">Name: {{ celeb?.name }}</td>
         <br/>
-        <!--Needs currenty and comma pipe-->
         <td class="tableElem" title="Net Worth">Net Worth: {{celeb?.netWorth | currency:netWorthPrefix:'code'}}</td>
         <br/>
         <td class="tableElem" title="Age">Age: {{ celeb?.age }}</td>
         <br/>
         <td class="tableElem" title="Country">Country of Birth: {{ celeb?.country }}</td>
         <br/>
-        <!--  -->
       </tr>
     </table>
     <ng-template #noData>
