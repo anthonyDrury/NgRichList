@@ -1,31 +1,70 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
   <h1>{{ richList?.pageTitleH1 }}</h1>
+  <h2>{{ richList?.pageTitleH2 }}</h2>
+  <p>{{ richList?.description }}</p>
+  <p>Reference:
+    <a href="{{ richList?.referenceLink }}">http://www.therichest.com/top-lists/top-100-richest-celebrities/</a>
+  </p>
 
 
-  <input type="text" [(ngModel)]="searchString" (change)="searchFilter()" />
 
-  <select [(ngModel)]="currencySelected" (ngModelChange)="currencyFilter()">
-    <option [value]="usDollarValue">USD</option>
-    <option [value]="australianDollarValue">AUD</option>
-    <option [value]="euroValue">EUR</option>
-  </select>
+  <div class="formBody">
 
+    <div class="searchSection">
+      <div class="searchElem">
+        <label for="searchBar" class="searchLabel">Search:</label>
+        <input id="searchBar" class="searchBar" type="text" placeholder="Search" [(ngModel)]="searchString" (keydown)="searchFilter()"
+        />
+      </div>
 
-  <table class='table' *ngIf='richList?.celebrityList.length else noData'>
-    <tbody>
+      <div class="searchElem">
+        <label for="nationalitySearch" class="searchLabel">Birthplace:</label>
+        <select id="nationalitySearch" class="nationalitySearch" [(ngModel)]="nationalitySearchString" (change)="searchFilter()">
+          <option *ngFor="let opt of nationalitySet" [value]="opt">{{opt}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="searchSection">
+      <div class="searchElem">
+        <label for="currencyFilter" class="searchLabel">Currency Converter:</label>
+        <select id="currencyFilter" class="currencyFilter" [(ngModel)]="currencySelected" (ngModelChange)="currencyFilter()">
+          <option [value]="usDollarValue">USD</option>
+          <option [value]="australianDollarValue">AUD</option>
+          <option [value]="euroValue">EUR</option>
+        </select>
+      </div>
+
+      <div class="searchElem">
+        <label for="rankSelect" class="searchLabel">Order By:</label>
+        <select id="rankSelect" class="rankSelect" [(ngModel)]="rankSelected" (ngModelChange)="rankSort()">
+          <option value="rank">Ranking</option>
+          <option value="age">Age</option>
+          <option value="name">Name</option>
+        </select>
+      </div>
+    </div>
+
+    <table class='table' *ngIf='richList?.celebrityList.length else noData'>
       <tr class="tableRow" *ngFor='let celeb of richList.celebrityList'>
         <th class="tableHead tableElem" title="Number">No. {{celeb?.rank}}</th>
-        <td class="tableElem" title="Name">name: {{ celeb?.name }}</td>
+        <br/>
+        <td class="tableElem" title="Name">Name: {{ celeb?.name }}</td>
+        <br/>
         <!--Needs currenty and comma pipe-->
-        <td class="tableElem" title="Net Worth">{{ netWorthPrefix }} {{ celeb?.netWorth }}</td>
-        <td class="tableElem" title="Age">{{ celeb?.age }}</td>
-        <td class="tableElem" title="Country">{{ celeb?.country }}</td>
+        <td class="tableElem" title="Net Worth">Net Worth: {{celeb?.netWorth | currency:netWorthPrefix:'code'}}</td>
+        <br/>
+        <td class="tableElem" title="Age">Age: {{ celeb?.age }}</td>
+        <br/>
+        <td class="tableElem" title="Country">Country of Birth: {{ celeb?.country }}</td>
+        <br/>
         <!--  -->
       </tr>
-    </tbody>
-  </table>
-  <ng-template #noData>
-    <p>No Results Found</p>
-  </ng-template>
+    </table>
+    <ng-template #noData>
+      <p>No Results Found</p>
+    </ng-template>
+  </div>
+
 </div>

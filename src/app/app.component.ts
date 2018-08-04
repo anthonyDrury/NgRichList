@@ -16,32 +16,98 @@ export class AppComponent implements OnInit {
   usDollarValue: number;
   australianDollarValue: number;
   euroValue: number;
-  currencySelected = 0;
-  netWorthPrefix = '$USD';
+  currencySelected: number;
+  netWorthPrefix: string;
   errorMessage: string;
   searchString: string;
+  nationalitySet: Set<string>;  // Set allows for only distinct values
+  nationalitySearchString: string;
+  rankSelected: string;
 
   constructor(
     private _ListPipeService: ListPipeService,
-  ) { }
+  ) {
+    this.nationalitySet = new Set();
+    this.nationalitySearchString = 'Show All';
+    this.netWorthPrefix = '$USD';
+    this.currencySelected = 0;
+    this.rankSelected = 'rank';
+  }
+
+  rankSort() {
+    if (this.rankSelected === 'rank') {
+      this.richList.celebrityList.sort(function (a, b) {
+        return a.rank - b.rank;
+      });
+    } else if (this.rankSelected === 'age') {
+      this.richList.celebrityList.sort(function (a, b) {
+        return a.age - b.age;
+      });
+    } else if (this.rankSelected === 'name') {
+      this.richList.celebrityList.sort(function (a, b) {
+        const nameA = a.name.toUpperCase();
+        const nameB = b.name.toUpperCase();
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+
+        return 0;
+      });
+    }
+  }
 
 
-  searchFilter() {
-    console.log(this.searchString);
+  resetList() {
     this.richList.celebrityList = JSON.parse(JSON.stringify(this._celebrityList));
+  }
+
+  nationalityFilter() {
+    this.resetList();
     const testArr = JSON.parse(JSON.stringify(this._celebrityList));  // Deep Copy
     this.richList.celebrityList = testArr.map((x) => {
-      let count = 0;
-      for (const prop in x) {   // Searches data of each prop for string
-        if (x[prop].toString().toLowerCase().includes(this.searchString.toLowerCase())) {
-          count++;
-        }
-      }
-      if (count) {
+      if (x.country.toString().toLowerCase().includes(this.searchString.toLowerCase())) {
         return x;
       }
     }).filter(n => n); // Trims list
-    console.log(this.richList.celebrityList.length);
+
+    this.searchFilter();
+  }
+
+  searchFilter() {
+    this.resetList();
+    const testArr = JSON.parse(JSON.stringify(this._celebrityList));  // Deep Copy
+    this.richList.celebrityList = testArr.map((x) => {
+      let count = 0;
+      let test = 0;
+
+      // Search function
+      if (this.searchString != null) {
+        test++;
+        for (const prop in x) {   // Searches data of each prop for string
+          if (x[prop].toString().toLowerCase().includes(this.searchString.toLowerCase())) {
+            count++;
+            break;  // Only 1 prop needs to match
+          }
+        }
+      }
+      if (this.nationalitySearchString != null && this.nationalitySearchString !== 'Show All') {
+        test++;
+        if (x.country.toString().toLowerCase().includes(this.nationalitySearchString.toLowerCase())) {
+          count++;
+        }
+      }
+
+
+
+      if (count >= test) {
+        return x;
+      }
+    }).filter(n => n); // Trims list
+
+    this.rankSort();  // Re order the new list
   }
 
   currencyFilter() {
@@ -74,7 +140,13 @@ export class AppComponent implements OnInit {
         this.euroValue = this.richList.euroValue;
         this.currencySelected = this.richList.usDollarValue;
 
+        this.nationalitySet.add('Show All');
+        elem.celebrityList.forEach(x => {
+          this.nationalitySet.add(x.country);
+        });
       },
         error => this.errorMessage = <any>error);
+
+
   }
 }

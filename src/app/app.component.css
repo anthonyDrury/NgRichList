@@ -1,6 +1,75 @@
+.table {
+    padding-top: 20px;
+    border: solid 1px black;
+}
 
-.table, .tableRow  {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.table, .tableRow {
+    max-width: 500px;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    padding: 10px;
+}
+
+.tableRow {
+    padding: 0;
+    border: solid 1px grey;
+}
+
+.tableRow:first-child {
+    border-bottom: none;
+}
+
+.tableRow:not(:first-child) {
+    border-bottom: none;
+    border-top: none;
+}
+
+.tableRow:last-child {
+    border: none;
+    border-bottom: solid 1px grey;
+}
+
+.tableElem {
+    width: 500px;
+}
+
+.tableHead {
+    color: #f4f4f4;
+    background-color: rgb(53, 53, 134);
+    padding: 10px;
+    font-size: 20px;
+}
+
+.formBody {
+    width: 80%;
+    min-width: 280px;
+    display: block;
+    margin: 0 auto;
+    background-color: #e4e4e4;
+}
+
+.searchSection {
+    width: 250px;
+    display: inline-block;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.searchElem {
+    padding: 20px;
+    text-align: left;
+    /* display: inline-block; */
+}
+
+.searchLabel {
+    font-size: 18px;
+}
+
+input, select {
+    width: 100%;
+    height: 30px;
+    padding: 0;
+    margin: 0;
+    border: none;
 }
