@@ -26,6 +26,12 @@ There is also a docker file if you instead wish to run it as a docker container.
 
 Make sure you have docker installed, otherwise install it. This changes highly depending on OS so I will not cover this.
 
+If you simply wish to run it via my hosted container:
+
+Run `docker run --rm -p 3004:3004 anthonydrury/ng-rich-list`
+
+else if you wish to build your own container:
+
 Run `docker build -t {imageName} .`
 
 Run `docker run -p 3004:3004 {imageName}`
