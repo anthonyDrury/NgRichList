@@ -1,18 +1,18 @@
 export interface IRichList {
-    pageTitleH1: String;
-    pageTitleH2: String;
-    description: String;
-    referenceLink: String;
-    usDollarValue: Number;
-    australianDollarValue: Number;
-    euroValue: Number;
+    pageTitleH1: string;
+    pageTitleH2: string;
+    description: string;
+    referenceLink: string;
+    usDollarValue: number;
+    australianDollarValue: number;
+    euroValue: number;
     celebrityList: [
         {
-            rank: Number;
-            name: String;
-            netWorth: Number;
-            age: Number;
-            country: String;
+            rank: number;
+            name: string;
+            netWorth: number;
+            age: number;
+            country: string;
         }
     ];
 }

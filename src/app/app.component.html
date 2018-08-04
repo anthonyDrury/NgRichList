@@ -3,28 +3,29 @@
   <h1>{{ richList?.pageTitleH1 }}</h1>
 
 
+  <input type="text" [(ngModel)]="searchString" (change)="searchFilter()" />
 
-  <select>
-    <option value="{{richList?.usDollarValue}}">USD</option>
-    <option value="{{richList?.australianDollarValue}}">AUD</option>
-    <option value="{{richList?.euroValue}}">EUR</option>
+  <select [(ngModel)]="currencySelected" (ngModelChange)="currencyFilter()">
+    <option [value]="usDollarValue">USD</option>
+    <option [value]="australianDollarValue">AUD</option>
+    <option [value]="euroValue">EUR</option>
   </select>
 
 
-  <table class='table' *ngIf='richList?.celebrityList else noData'>
+  <table class='table' *ngIf='richList?.celebrityList.length else noData'>
     <tbody>
       <tr class="tableRow" *ngFor='let celeb of richList.celebrityList'>
-        <th class="tableHead tableElem" title="Number">No. {{celeb.rank}}</th>
-        <td class="tableElem" title="Name">name: {{ celeb.name }}</td>
+        <th class="tableHead tableElem" title="Number">No. {{celeb?.rank}}</th>
+        <td class="tableElem" title="Name">name: {{ celeb?.name }}</td>
         <!--Needs currenty and comma pipe-->
-        <td class="tableElem" title="Net Worth"> {{ celeb.netWorth }}</td>
-        <td class="tableElem" title="Age">{{ celeb.age }}</td>
-        <td class="tableElem" title="Country">{{ celeb.country }}</td>
+        <td class="tableElem" title="Net Worth">{{ netWorthPrefix }} {{ celeb?.netWorth }}</td>
+        <td class="tableElem" title="Age">{{ celeb?.age }}</td>
+        <td class="tableElem" title="Country">{{ celeb?.country }}</td>
         <!--  -->
       </tr>
     </tbody>
-    <ng-template #noData>
-      <p>No Data</p>
-    </ng-template>
   </table>
+  <ng-template #noData>
+    <p>No Results Found</p>
+  </ng-template>
 </div>
